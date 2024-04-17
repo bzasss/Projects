@@ -1,5 +1,5 @@
-from tkinter import *
 from random import randint
+from tkinter import *
 
 score = 0
 is_game_over = False
@@ -53,11 +53,9 @@ def right_key(event):
         end_game_score()
 
 
-
 def merge_down(event):
     global labels
     global score
-    print("merging")
     for i in range(4):
         previous_number = 0
         for j in range(3, -1, -1):
@@ -74,7 +72,6 @@ def merge_down(event):
 def merge_up(event):
     global labels
     global score
-    print("merging")
     for i in range(4):
         previous_number = 0
         for j in range(4):
@@ -91,7 +88,6 @@ def merge_up(event):
 def merge_left(event):
     global labels
     global score
-    print("merging")
     for j in range(4):
         previous_number = 0
         for i in range(4):
@@ -108,7 +104,6 @@ def merge_left(event):
 def merge_right(event):
     global labels
     global score
-    print("merging")
     for j in range(4):
         previous_number = 0
         for i in range(3, -1, -1):
@@ -138,14 +133,13 @@ def add_new_number():
         r, c = int(random_free_space[0]), int(random_free_space[1])
         labels[r][c].config(text="2")
     else:
-        print("No free spaces available")
+
         global is_game_over
         is_game_over = True
 
 
 def down_key_pressed(event):
     global labels
-    print("pressed")
     is_finished = False
     while not is_finished:
         is_finished = True
@@ -162,7 +156,6 @@ def down_key_pressed(event):
 
 def up_key_pressed(event):
     global labels
-    print("pressed")
     is_finished = False
     while not is_finished:
         is_finished = True
@@ -179,7 +172,6 @@ def up_key_pressed(event):
 
 def left_key_pressed(event):
     global labels
-    print("pressed")
     is_finished = False
     while not is_finished:
         is_finished = True
@@ -196,7 +188,6 @@ def left_key_pressed(event):
 
 def right_key_pressed(event):
     global labels
-    print("pressed")
     is_finished = False
     while not is_finished:
         is_finished = True
