@@ -14,8 +14,8 @@ def down_key(event):
         down_key_pressed(event)
         merge_down(event)
         down_key_pressed(event)
-        add_new_number()
-        add_new_number()
+        add_new_number(False)
+        add_new_number(False)
     else:
         end_game_score()
 
@@ -25,8 +25,8 @@ def up_key(event):
         up_key_pressed(event)
         merge_up(event)
         up_key_pressed(event)
-        add_new_number()
-        add_new_number()
+        add_new_number(False)
+        add_new_number(False)
     else:
         end_game_score()
 
@@ -36,8 +36,8 @@ def left_key(event):
         left_key_pressed(event)
         merge_left(event)
         left_key_pressed(event)
-        add_new_number()
-        add_new_number()
+        add_new_number(False)
+        add_new_number(False)
     else:
         end_game_score()
 
@@ -47,8 +47,8 @@ def right_key(event):
         right_key_pressed(event)
         merge_right(event)
         right_key_pressed(event)
-        add_new_number()
-        add_new_number()
+        add_new_number(False)
+        add_new_number(False)
     else:
         end_game_score()
 
@@ -57,10 +57,10 @@ def merge_down(event):
     global labels
     global score
     for i in range(4):
-        previous_number = 0
+        previous_number = " "
         for j in range(3, -1, -1):
             current_number = labels[i][j].cget("text")
-            if previous_number == current_number != " ":
+            if str(previous_number) == str(current_number) != " ":
                 new_number = (int(current_number))*2
                 score += int(current_number)
                 update_score_label()
@@ -73,10 +73,10 @@ def merge_up(event):
     global labels
     global score
     for i in range(4):
-        previous_number = 0
+        previous_number = " "
         for j in range(4):
             current_number = labels[i][j].cget("text")
-            if previous_number == current_number != " ":
+            if str(previous_number) == str(current_number) != " ":
                 new_number = (int(current_number))*2
                 score += int(current_number)
                 update_score_label()
@@ -89,10 +89,10 @@ def merge_left(event):
     global labels
     global score
     for j in range(4):
-        previous_number = 0
+        previous_number = " "
         for i in range(4):
             current_number = labels[i][j].cget("text")
-            if previous_number == current_number != " ":
+            if str(previous_number) == str(current_number) != " ":
                 new_number = (int(current_number)) * 2
                 score += int(current_number)
                 update_score_label()
@@ -105,10 +105,10 @@ def merge_right(event):
     global labels
     global score
     for j in range(4):
-        previous_number = 0
+        previous_number = " "
         for i in range(3, -1, -1):
             current_number = labels[i][j].cget("text")
-            if previous_number == current_number != " ":
+            if str(previous_number) == str(current_number) != " ":
                 new_number = (int(current_number)) * 2
                 score += int(current_number)
                 update_score_label()
@@ -117,7 +117,7 @@ def merge_right(event):
             previous_number = current_number
 
 
-def add_new_number():
+def add_new_number(is_start_of_game):
     global labels
     free_spaces = []
     for r in range(4):
@@ -125,17 +125,20 @@ def add_new_number():
             label_tmp = labels[r][c]
             if is_this_space_empty(label_tmp):
                 free_spaces.append(str(r) + str(c))
-
     number_of_free_spaces = len(free_spaces)
     if number_of_free_spaces > 0:
         random_index = randint(0, number_of_free_spaces - 1)
         random_free_space = free_spaces[random_index]
         r, c = int(random_free_space[0]), int(random_free_space[1])
-        labels[r][c].config(text="2")
+        random_index = randint(0, 100)
+        if random_index < 85 or is_start_of_game:
+            labels[r][c].config(text="2")
+        else:
+            labels[r][c].config(text="4")
     else:
-
         global is_game_over
         is_game_over = True
+
 
 
 def down_key_pressed(event):
@@ -235,6 +238,6 @@ for r in range(4):
         labels[c][r] = label_tmp
 score_label = Label(root, text="Score: " + str(score))
 score_label.grid(row=5, columnspan=4)
-add_new_number()
-add_new_number()
+add_new_number(True)
+add_new_number(True)
 root.mainloop()
