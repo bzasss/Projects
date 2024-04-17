@@ -66,6 +66,7 @@ def merge_down(event):
                 update_score_label()
                 labels[i][j+1].config(text=new_number)
                 labels[i][j].config(text=" ")
+                current_number = " "
             previous_number = current_number
 
 
@@ -82,6 +83,7 @@ def merge_up(event):
                 update_score_label()
                 labels[i][j-1].config(text=new_number)
                 labels[i][j].config(text=" ")
+                current_number = " "
             previous_number = current_number
 
 
@@ -98,6 +100,7 @@ def merge_left(event):
                 update_score_label()
                 labels[i-1][j].config(text=new_number)
                 labels[i][j].config(text=" ")
+                current_number = " "
             previous_number = current_number
 
 
@@ -114,6 +117,7 @@ def merge_right(event):
                 update_score_label()
                 labels[i+1][j].config(text=new_number)
                 labels[i][j].config(text=" ")
+                current_number = " "
             previous_number = current_number
 
 
