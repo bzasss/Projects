@@ -1,0 +1,231 @@
+Subject: [PATCH] fixed a problem with numbers sometimes not merging added that the number that spawn will be sometimes 4 (forgot that existed)
+---
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 0d537d2dbcedc7da9e359a66c55818a76d3660f0)
++++ b/.idea/workspace.xml	(revision 84d5923ccd209d25adcd5e047f1340fc6ff879dd)
+@@ -4,7 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="a87a7791-675d-436f-b8c8-f6d94e5569bc" name="Changes" comment="1st project finished (for now)" />
++    <list default="true" id="a87a7791-675d-436f-b8c8-f6d94e5569bc" name="Changes" comment="1st project finished (for now)">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/2048.py" beforeDir="false" afterPath="$PROJECT_DIR$/2048.py" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -20,6 +23,18 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
++  "lastFilter": {
++    "state": "OPEN",
++    "assignee": "bzasss"
++  }
++}]]></component>
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/bzasss/Projects",
++    "accountId": "8ac3962d-c4eb-4e3a-8fc6-c47069cc32a8"
++  }
++}]]></component>
+   <component name="ProblemsViewState">
+     <option name="selectedTabId" value="CurrentFile" />
+   </component>
+@@ -36,6 +51,7 @@
+   </component>
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
++    "Python.2048.executor": "Run",
+     "Python.Main.executor": "Run",
+     "Python.scratch_1.executor": "Run",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+@@ -67,7 +83,7 @@
+       <updated>1713258292012</updated>
+       <workItem from="1713258293020" duration="158000" />
+       <workItem from="1713258456509" duration="29000" />
+-      <workItem from="1713258489383" duration="13327000" />
++      <workItem from="1713258489383" duration="14992000" />
+     </task>
+     <task id="LOCAL-00001" summary="1st project finished (for now)">
+       <option name="closed" value="true" />
+@@ -85,7 +101,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1713340988756</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="1st project finished (for now)">
++      <option name="closed" value="true" />
++      <created>1713341428825</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1713341428825</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -125,6 +149,7 @@
+     </breakpoint-manager>
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
++    <SUITE FILE_PATH="coverage/2048$2048.coverage" NAME="2048 Coverage Results" MODIFIED="1713351501713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+     <SUITE FILE_PATH="coverage/2048$scratch_1.coverage" NAME="scratch_1 Coverage Results" MODIFIED="1713282471677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
+     <SUITE FILE_PATH="coverage/2048$Main.coverage" NAME="Main Coverage Results" MODIFIED="1713340204622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+   </component>
+Index: 2048.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/2048.py b/2048.py
+--- a/2048.py	(revision 0d537d2dbcedc7da9e359a66c55818a76d3660f0)
++++ b/2048.py	(revision 84d5923ccd209d25adcd5e047f1340fc6ff879dd)
+@@ -14,8 +14,8 @@
+         down_key_pressed(event)
+         merge_down(event)
+         down_key_pressed(event)
+-        add_new_number()
+-        add_new_number()
++        add_new_number(False)
++        add_new_number(False)
+     else:
+         end_game_score()
+ 
+@@ -25,8 +25,8 @@
+         up_key_pressed(event)
+         merge_up(event)
+         up_key_pressed(event)
+-        add_new_number()
+-        add_new_number()
++        add_new_number(False)
++        add_new_number(False)
+     else:
+         end_game_score()
+ 
+@@ -36,8 +36,8 @@
+         left_key_pressed(event)
+         merge_left(event)
+         left_key_pressed(event)
+-        add_new_number()
+-        add_new_number()
++        add_new_number(False)
++        add_new_number(False)
+     else:
+         end_game_score()
+ 
+@@ -47,8 +47,8 @@
+         right_key_pressed(event)
+         merge_right(event)
+         right_key_pressed(event)
+-        add_new_number()
+-        add_new_number()
++        add_new_number(False)
++        add_new_number(False)
+     else:
+         end_game_score()
+ 
+@@ -57,10 +57,10 @@
+     global labels
+     global score
+     for i in range(4):
+-        previous_number = 0
++        previous_number = " "
+         for j in range(3, -1, -1):
+             current_number = labels[i][j].cget("text")
+-            if previous_number == current_number != " ":
++            if str(previous_number) == str(current_number) != " ":
+                 new_number = (int(current_number))*2
+                 score += int(current_number)
+                 update_score_label()
+@@ -73,10 +73,10 @@
+     global labels
+     global score
+     for i in range(4):
+-        previous_number = 0
++        previous_number = " "
+         for j in range(4):
+             current_number = labels[i][j].cget("text")
+-            if previous_number == current_number != " ":
++            if str(previous_number) == str(current_number) != " ":
+                 new_number = (int(current_number))*2
+                 score += int(current_number)
+                 update_score_label()
+@@ -89,10 +89,10 @@
+     global labels
+     global score
+     for j in range(4):
+-        previous_number = 0
++        previous_number = " "
+         for i in range(4):
+             current_number = labels[i][j].cget("text")
+-            if previous_number == current_number != " ":
++            if str(previous_number) == str(current_number) != " ":
+                 new_number = (int(current_number)) * 2
+                 score += int(current_number)
+                 update_score_label()
+@@ -105,10 +105,10 @@
+     global labels
+     global score
+     for j in range(4):
+-        previous_number = 0
++        previous_number = " "
+         for i in range(3, -1, -1):
+             current_number = labels[i][j].cget("text")
+-            if previous_number == current_number != " ":
++            if str(previous_number) == str(current_number) != " ":
+                 new_number = (int(current_number)) * 2
+                 score += int(current_number)
+                 update_score_label()
+@@ -117,7 +117,7 @@
+             previous_number = current_number
+ 
+ 
+-def add_new_number():
++def add_new_number(is_start_of_game):
+     global labels
+     free_spaces = []
+     for r in range(4):
+@@ -125,19 +125,22 @@
+             label_tmp = labels[r][c]
+             if is_this_space_empty(label_tmp):
+                 free_spaces.append(str(r) + str(c))
+-
+     number_of_free_spaces = len(free_spaces)
+     if number_of_free_spaces > 0:
+         random_index = randint(0, number_of_free_spaces - 1)
+         random_free_space = free_spaces[random_index]
+         r, c = int(random_free_space[0]), int(random_free_space[1])
+-        labels[r][c].config(text="2")
++        random_index = randint(0, 100)
++        if random_index < 85 or is_start_of_game:
++            labels[r][c].config(text="2")
++        else:
++            labels[r][c].config(text="4")
+     else:
+-
+         global is_game_over
+         is_game_over = True
+ 
+ 
++
+ def down_key_pressed(event):
+     global labels
+     is_finished = False
+@@ -235,6 +238,6 @@
+         labels[c][r] = label_tmp
+ score_label = Label(root, text="Score: " + str(score))
+ score_label.grid(row=5, columnspan=4)
+-add_new_number()
+-add_new_number()
++add_new_number(True)
++add_new_number(True)
+ root.mainloop()
