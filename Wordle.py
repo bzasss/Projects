@@ -30,9 +30,15 @@ def game_won():
     start_again_button.grid(row=guesses+1, column=0, columnspan=number_of_letters)
 
 
+def string_to_table(input_string):
+    table = [[char] for char in input_string]
+    return table
+
+
 def submit_entry(event):
     global guesses
     number_of_greens = 0
+    secret_word_table = string_to_table(secret_word)
     guesses += 1
     slice_from = (guesses-1)*number_of_letters
     number_entry = -1
@@ -42,24 +48,27 @@ def submit_entry(event):
         colors.append("grey")
         int(number_entry)
         number_entry += 1
-        if current_character == secret_word[number_entry]:
+        if current_character == secret_word_table[number_entry][0]:
             colors.pop()
             colors.append("green")
             number_of_greens += 1
+            secret_word_table[number_entry] = " "
         else:
-            for guess in secret_word:
-                if guess == current_character:
+            tmp_no = 0
+            for guess in secret_word_table:
+                if guess[0] == current_character:
                     colors.pop()
                     colors.append("yellow")
+                    secret_word_table[tmp_no] = " "
                     break
+                tmp_no += 1
     colors.reverse()
     for entry_widget in entry_widgets[slice_from:]:
-        entry_widget.config(bg=colors.pop(), fg="black", state="readonly")
+        entry_widget.config(readonlybackground=colors.pop(), fg="black", state="readonly")
     if number_of_greens == 5:
         game_won()
     else:
         new_line()
-
 
 
 def new_line():
