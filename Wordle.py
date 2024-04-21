@@ -1,4 +1,7 @@
 from tkinter import *
+import requests
+import re
+import random
 
 
 def clear_window():
@@ -12,6 +15,7 @@ def random_word():
     label.pack()
     number_entry = Entry(root, validate="key", validatecommand=(root.register(validate_number), '%P'))
     number_entry.pack()
+    number_entry.focus_set()
     submit_button = Button(root, text="Submit", command=lambda: new_word(number_entry.get()))
     submit_button.pack()
 
@@ -65,7 +69,7 @@ def submit_entry(event):
     colors.reverse()
     for entry_widget in entry_widgets[slice_from:]:
         entry_widget.config(readonlybackground=colors.pop(), fg="black", state="readonly")
-    if number_of_greens == 5:
+    if number_of_greens == number_of_letters:
         game_won()
     else:
         new_line()
@@ -94,17 +98,37 @@ def is_character(letter):
 
 
 def new_word(number):
+    if number == "":
+        random_word()
+        print("The value cannot be empty")
+        return
     clear_window()
     global number_of_letters
     global secret_word
-    if number != 5:
-        print("for now i only have 5 letters words heh, but i will add " + str(number) + " words soon")
-    secret_word = "lazer"
-    number_of_letters = 5
+
+    number_of_letters = int(number)
+
+    try:
+        response = requests.get(f"https://meaningpedia.com/{number_of_letters}-letter-words?show=all")
+        if response.status_code != 200:
+            print("We do not have a database for words with the given length.")
+            return
+    except requests.exceptions.RequestException as e:
+        print("An error occurred while making the request:", e)
+        return
+    word_list_collection = response.text
+    pattern = re.compile(r'<span itemprop="name">(\w+)</span>')
+    word_list = pattern.findall(word_list_collection)
+    if not word_list:
+        print("No words found in the database for the given length.")
+        random_word()
+        return
+
+    secret_word = random.choice(word_list)
     start_the_actual_game()
 
 
-def choosen_word(param):
+def chosen_word(param):
     clear_window()
     global number_of_letters
     global secret_word
@@ -119,7 +143,7 @@ def choose_word():
     label.pack()
     text_entry = Entry(root, validate="key")
     text_entry.pack()
-    submit_button = Button(root, text="Submit", command=lambda: choosen_word(text_entry.get()))
+    submit_button = Button(root, text="Submit", command=lambda: chosen_word(text_entry.get()))
     submit_button.pack()
 
 
